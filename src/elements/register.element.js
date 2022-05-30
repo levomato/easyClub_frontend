@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+
 import { isEmail } from "validator";
 import AuthService from "../services/auth.service";
 const required = (value) => {
@@ -22,6 +20,26 @@ const email = (value) => {
     );
   }
 };
+const vfirstName = (value) => {
+  if (value.length < 2 || value.length > 50) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This is not a valid firstname.
+      </div>
+    );
+  }
+};
+
+const vlastName = (value) => {
+  if (value.length < 2 || value.length > 50) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This is not a valid lastname..
+      </div>
+    );
+  }
+};
+
 const vusername = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
@@ -47,14 +65,36 @@ export default class Register extends Component {
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeBirthdate = this.onChangeBirthdate.bind(this);
+    this.onChangeFirstName = this.onChangeFirstName.bind(this);
+    this.onChangeLastName = this.onChangeLastName.bind(this);
     this.state = {
+      firstname: "",
+      lastname: "",
       username: "",
+      birthdate: null,
       email: "",
       password: "",
       successful: false,
       message: "",
     };
   }
+  onChangeFirstName(e) {
+    this.setState({
+      firstname: e.target.value,
+    });
+  }
+  onChangeLastName(e) {
+    this.setState({
+      lastname: e.target.value,
+    });
+  }
+  onChangeBirthdate(e) {
+    this.setState({
+      birthdate: new Date(e.target.value)
+    });
+  }
+
   onChangeUsername(e) {
     this.setState({
       username: e.target.value,
@@ -78,10 +118,14 @@ export default class Register extends Component {
     });
     this.form.validateAll();
     if (this.checkBtn.context._errors.length === 0) {
+      console.log(this.state.username);
       AuthService.register(
+        this.state.firstname,
+        this.state.lastname,
         this.state.username,
         this.state.email,
-        this.state.password
+        this.state.password,
+        this.state.birthdate
       ).then(
         (response) => {
           this.setState({
@@ -107,7 +151,7 @@ export default class Register extends Component {
   render() {
     return (
       <div className="col-md-12">
-        <div className="card card-container">
+        {/* <div className="card card-container">
           <img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
             alt="profile-img"
@@ -121,6 +165,39 @@ export default class Register extends Component {
           >
             {!this.state.successful && (
               <div>
+                <div className="form-group">
+                  <label htmlFor="firstname">Firstname</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="firstname"
+                    value={this.state.firstname}
+                    onChange={this.onChangeFirstName}
+                    validations={[required, vfirstName]}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lastname">Lastname</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="lastname"
+                    value={this.state.lastname}
+                    onChange={this.onChangeLastName}
+                    validations={[required, vlastName]}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="birthdate">Birthdate</label>
+                  <Input
+                    type="text"
+                    className="form-control"
+                    name="birthdate"
+                    value={this.state.birthdate}
+                    onChange={this.onChangeBirthdate}
+                    validations={[required]}
+                  />
+                </div>
                 <div className="form-group">
                   <label htmlFor="username">Username</label>
                   <Input
@@ -180,7 +257,7 @@ export default class Register extends Component {
               }}
             />
           </Form>
-        </div>
+        </div> */}
       </div>
     );
   }

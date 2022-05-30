@@ -16,15 +16,10 @@ function App() {
   const { showModeratorBoard, setShowModeratorBoard } = useState(false);
   const { showAdminBoard, setShowAdminBoard } = useState(false);
   const { currentUser, setCurrentUser } = useState(undefined);
-  useEffect(() => {
-    const user = authService.getCurrentUser();
-    if (user) {
-      setCurrentUser(user);
-      setShowModeratorBoard(user.roles.include("ROLE_MODERATOR"));
-      showAdminBoard(user.roles.include("ROLE_ADMIN"));
-    }
-  });
 
+  const user = authService.getCurrentUser();
+
+  console.log(user);
   const logOut = () => {
     authService.logout();
   };
@@ -55,7 +50,7 @@ function App() {
               </Link>
             </li>
           )}
-          {currentUser && (
+          {user && (
             <li className="nav-item">
               <Link to={"/user"} className="nav-link">
                 User

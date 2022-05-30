@@ -2,14 +2,15 @@ import axios from "axios";
 const API_URL = "http://localhost:8080/api/v1/";
 class AuthService {
   // POST {username, password} & save JWT to Local Storage
-  login(username, password) {
+  login(userName, password) {
     return axios
       .post(API_URL + "signin", {
-        username,
+        userName,
         password,
       })
       .then((response) => {
-        if (response.data.accessToken) {
+        console.log(response.data)
+        if (response.data.token) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
         return response.data;
@@ -20,11 +21,15 @@ class AuthService {
     localStorage.removeItem("user");
   }
   // POST {username, email, password}
-  register(username, email, password) {
+  register(firstName, lastName, userName, email, password, birthdate) {
+    console.log(userName);
     return axios.post(API_URL + "registration", {
-      username,
+      firstName,
+      lastName,
+      userName,
       email,
       password,
+      birthdate
     });
   }
   // get stored user information (including JWT)
