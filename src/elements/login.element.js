@@ -2,6 +2,8 @@ import React, { Component, useState } from "react";
 import AuthService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const required = (value) => {
   if (!value) {
@@ -30,6 +32,7 @@ export default function Login(props) {
     AuthService.login(data.username, data.password).then(
       () => {
 
+
         navigate("/profile");
         window.location.reload();
       },
@@ -53,11 +56,7 @@ export default function Login(props) {
   return (
     <div className="col-md-12">
       <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-          alt="profile-img"
-          className="profile-img-card"
-        />
+
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
@@ -96,6 +95,7 @@ export default function Login(props) {
           )}
         </form>
       </div>
+
     </div>
   );
 
