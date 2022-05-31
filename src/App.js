@@ -13,23 +13,21 @@ import Profile from "./elements/profile.element";
 import Home from "./elements/home.element";
 import { NavBar } from "./elements/navbar.element";
 import Logout from "./elements/logout.element";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
-
   const user = authService.getCurrentUser();
-
 
   return (
     <div>
       <NavBar user={user} />
-      <div className="container mt-3">
+      <div className="container mt-3 d-flex justify-content-center">
         <Routes>
           <Route path={"/home"} element={<Home user={user} />} />
           <Route path="/login" element={<Login />} />
-          {user?.roles.includes("Admin") &&
-            <Route path="/register" element={<Register user={user} />} />
-          }
+          {/* {user?.roles.includes("Admin") && */}
+          <Route path="/register" element={<Register user={user} />} />
+          {/* } */}
           <Route path="/profile" element={<Profile user={user} />} />
           <Route path="/user" element={<BoardUser user={user} />} />
           <Route path="/mod" element={<BoardModerator user={user} />} />
