@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "./auth-header";
 const API_URL = "http://localhost:8080/api/v1/";
 class AuthService {
   // POST {username, password} & save JWT to Local Storage
@@ -21,16 +22,18 @@ class AuthService {
     localStorage.removeItem("user");
   }
   // POST {username, email, password}
-  register(firstName, lastName, userName, email, password, birthdate) {
-    console.log(userName);
+  register(firstName, lastName, birthDate, street, number, city, email, phoneNumber, mobileNumber) {
     return axios.post(API_URL + "registration", {
       firstName,
       lastName,
-      userName,
+      birthDate,
+      street,
+      number,
+      city,
       email,
-      password,
-      birthdate
-    });
+      phoneNumber,
+      mobileNumber,
+    }, { headers: authHeader() });
   }
   // get stored user information (including JWT)
   getCurrentUser() {

@@ -19,16 +19,22 @@ export default function Register() {
   } = useForm();
 
   const handleRegister = (data) => {
+
     setMessage("");
     setSuccessful(false);
+
+    console.log(data);
 
     AuthService.register(
       data.firstname,
       data.lastname,
-      data.username,
+      data.birthdate,
+      data.street,
+      data.number,
+      data.city,
       data.email,
-      data.password,
-      data.birthdate
+      data.phonenumber,
+      data.mobilenumber,
     ).then(
       (response) => {
         setSuccessful(true);
@@ -48,7 +54,7 @@ export default function Register() {
   };
 
   return (
-    <form className="pure-form pure-form-aligned">
+    <form onSubmit={handleSubmit(handleRegister)} className="pure-form pure-form-aligned">
       <fieldset>
         <div className="pure-control-group">
           <label htmlFor="fistname">Firstname*</label>
@@ -69,12 +75,12 @@ export default function Register() {
             type="text"
             id="lastname"
             placeholder="Lastname"
-            {...register("lastname")}
+            {...register("lastname", { required: true })}
           />
         </div>
         <div className="pure-control-group">
           <label for="date">Birthdate*</label>
-          <input type="date" id="date" {...register("birthdate")} />
+          <input type="date" id="date" {...register("birthdate", { required: true })} />
         </div>
         <div className="pure-control-group">
           <label for="street">Street*</label>
@@ -82,7 +88,7 @@ export default function Register() {
             type="text"
             id="street"
             placeholder="Street"
-            {...register("street")}
+            {...register("street", { required: true })}
           />
         </div>
         <div className="pure-control-group">
@@ -91,7 +97,7 @@ export default function Register() {
             type="number"
             id="number"
             placeholder="Number"
-            {...register("number")}
+            {...register("number", { required: true })}
           />
         </div>
         <div className="pure-control-group">
@@ -100,7 +106,7 @@ export default function Register() {
             type="text"
             id="city"
             placeholder="City"
-            {...register("city")}
+            {...register("city", { required: true })}
           />
         </div>
         <div className="pure-control-group">
@@ -109,7 +115,7 @@ export default function Register() {
             type="email"
             id="email"
             placeholder="Email Address"
-            {...register("email")}
+            {...register("email", { required: true })}
           />
         </div>
         <div className="pure-control-group">
@@ -118,7 +124,7 @@ export default function Register() {
             type="text"
             id="phonenumber"
             placeholder="Homedigits"
-            {...register("phonenumber")}
+            {...register("phonenumber", { required: true })}
           />
         </div>
         <div className="pure-control-group">
@@ -127,18 +133,19 @@ export default function Register() {
             type="text"
             id="mobilenumber"
             placeholder="Mobiledigits"
-            {...register("mobilenumber")}
+            {...register("mobilenumber", { required: true })}
           />
         </div>
         <div className="pure-controls">
           <button
             className="pure-button pure-button-primary"
-            onClick={handleRegister}
+            type="submit"
           >
             Submit
           </button>
         </div>
       </fieldset>
+
       {message && <p>{message}</p>}
     </form>
   );
