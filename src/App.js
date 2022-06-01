@@ -25,9 +25,7 @@ function App() {
         <Routes>
           <Route path={"/home"} element={<Home user={user} />} />
           <Route path="/login" element={<Login />} />
-          {/* {user?.roles.includes("Admin") && */}
           <Route path="/register" element={<Register user={user} />} />
-          {/* } */}
           <Route path="/profile" element={<Profile user={user} />} />
           <Route path="/user" element={<BoardUser user={user} />} />
           <Route path="/mod" element={<BoardModerator user={user} />} />
