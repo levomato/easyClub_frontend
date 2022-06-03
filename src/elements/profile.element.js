@@ -1,20 +1,25 @@
 import React, { Component, useEffect, useState } from "react";
 import authService from "../services/auth.service";
-import AuthService from "../services/auth.service";
 import { toast, ToastContainer } from "react-toastify";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import Register from "./register.element";
-import modalChangePassword from "./modal-change-password.element";
 import ModalChangePassword from "./modal-change-password.element";
+import ModalChangeUser from './modal-change-userdetails.element';
+import userService from "../services/user.service";
 export default function Profile(props) {
   const user = props.user;
   const { register, handleSubmit, setValue } = useForm();
   const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [showUserModal, setShowUserModal] = useState(false);
+
 
   const handleClosePasswordModal = () => setShowPasswordModal(false);
   const handleShowPasswordModal = () => setShowPasswordModal(true);
+
+  const handleCloseUserModal = () => setShowUserModal(false);
+  const handleShowUserModal = () => setShowUserModal(true);
 
 
 
@@ -33,7 +38,21 @@ export default function Profile(props) {
     authService.changePassword(props.user.id, data.oldPassword, data.newPassword, data.passwordRepeat);
   };
 
+  const handleChangeUser = (data) => {
+    userService.changeUser(props.user.id, data);
+  };
+
   const changeMessage = (message, accepted) => {
+    if (accepted) {
+      toast.success(message);
+    }
+    else {
+      toast.error(message)
+    }
+
+  }
+
+  const changeMessageUser = (message, accepted) => {
     if (accepted) {
       toast.success(message);
     }
@@ -77,7 +96,7 @@ export default function Profile(props) {
                   <strong>Street:</strong> {user.street} {user.housenumber}
                 </p>
                 <p>
-                  <strong>City:</strong> {user.city}
+                  <strong>City:</strong> {user.postCode} {user.city}
                 </p>
                 <p>
                   <strong>Mobile:</strong> {user.mobilenumber}
@@ -100,7 +119,7 @@ export default function Profile(props) {
                 >
                   Change Password
                 </Button>
-                <Button variant="secondary" size="sm">
+                <Button variant="secondary" size="sm" onClick={handleShowUserModal}>
                   Change User Details
                 </Button>
               </div>
@@ -120,43 +139,10 @@ export default function Profile(props) {
         <h1>No user logged in</h1>
       )}
       <ToastContainer />
-      {/* <Modal show={showPasswordModal} onHide={handleClosePasswordModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Change Password</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit(handleChangePassword)}>
-            <Form.Group
-              className="mb-3"
-              controllId="passwordForm.ControlInput1"
-              {...register("oldPassword")}
-            >
-              <Form.Label>Old Password</Form.Label>
-              <Form.Control type="password" autoFocus />
-            </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controllId="passwordForm.ControlInput2"
-              {...register("newPassword")}
-            >
-              <Form.Label>New Password</Form.Label>
-              <Form.Control type="password" autoFocus />
-            </Form.Group>
-            <Form.Group
-              className="mb-3"
-              controllId="passwordForm.ControlInput2"
-              {...register("passwordRepeat")}
-            >
-              <Form.Label>Repeat Password</Form.Label>
-              <Form.Control type="password" autoFocus />
-            </Form.Group>
-            <Button variant="secondary" size="sm" type="submit">
-              Change Password
-            </Button>
-          </Form>
-        </Modal.Body>
-      </Modal> */}
+
       <ModalChangePassword user={user} show={showPasswordModal} handleClose={handleClosePasswordModal} handleChangePassword={handleChangePassword} changeMessage={changeMessage} />
+      <ModalChangeUser user={user} show={showUserModal} handleClose={handleCloseUserModal} handleChangePassword={handleChangeUser} changeMessage={changeMessageUser} />
+
     </Container>
   );
 }

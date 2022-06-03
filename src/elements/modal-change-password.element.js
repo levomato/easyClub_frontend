@@ -77,7 +77,7 @@ export default function ModalChangePassword(props) {
                     </Form>
                 </Modal.Body>
             </Modal>
-            <ToastContainer />
+
         </>
     )
 }

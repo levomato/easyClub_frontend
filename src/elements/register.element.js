@@ -101,6 +101,15 @@ export default function Register() {
           />
         </div>
         <div className="pure-control-group">
+          <label for="postCode">Post Code</label>
+          <input
+            type="text"
+            id="postCode"
+            placeholder="Postcode"
+            {...register("postCode", { required: true })}
+          />
+        </div>
+        <div className="pure-control-group">
           <label for="city">City*</label>
           <input
             type="text"
