@@ -12,6 +12,7 @@ class AuthService {
       .then((response) => {
         console.log(response.data)
         if (response.data.token) {
+
           localStorage.setItem("user", JSON.stringify(response.data));
         }
         return response.data;
@@ -38,6 +39,16 @@ class AuthService {
   // get stored user information (including JWT)
   getCurrentUser() {
     return JSON.parse(localStorage.getItem("user"));
+  }
+
+  changePassword(id, oldPassword, newPassword, passwordRepeat) {
+    return axios.post(API_URL + "change-password", {
+      id,
+      oldPassword,
+      newPassword,
+      passwordRepeat
+    }, { headers: authHeader() })
+
   }
 }
 export default new AuthService();

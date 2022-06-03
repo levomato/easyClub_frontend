@@ -6,6 +6,8 @@ import { Container, Row, Col, Image } from "react-bootstrap";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import Register from "./register.element";
+import modalChangePassword from "./modal-change-password.element";
+import ModalChangePassword from "./modal-change-password.element";
 export default function Profile(props) {
   const user = props.user;
   const { register, handleSubmit, setValue } = useForm();
@@ -14,11 +16,7 @@ export default function Profile(props) {
   const handleClosePasswordModal = () => setShowPasswordModal(false);
   const handleShowPasswordModal = () => setShowPasswordModal(true);
 
-  const userDetails = {
-    fistname: "Levin",
-    lastname: "Kerschberger",
-    birthdate: new Date("2000-05-26"),
-  };
+
 
   useEffect(() => {
     if (!user.passwordChanged)
@@ -31,7 +29,19 @@ export default function Profile(props) {
       });
   }, []);
 
-  const handleChangePassword = (data) => {};
+  const handleChangePassword = (data) => {
+    authService.changePassword(props.user.id, data.oldPassword, data.newPassword, data.passwordRepeat);
+  };
+
+  const changeMessage = (message, accepted) => {
+    if (accepted) {
+      toast.success(message);
+    }
+    else {
+      toast.error(message)
+    }
+
+  }
 
   return (
     <Container>
@@ -53,7 +63,7 @@ export default function Profile(props) {
               <div className="d-grid gap-2">
                 <h3 className="mb-0">
                   <strong>
-                    {userDetails.fistname} {userDetails.lastname}
+                    {user.firstname} {user.lastname}
                   </strong>
                 </h3>
                 <p>
@@ -63,6 +73,19 @@ export default function Profile(props) {
                 <p>
                   <strong>Email:</strong> {user.email}
                 </p>
+                <p>
+                  <strong>Street:</strong> {user.street} {user.housenumber}
+                </p>
+                <p>
+                  <strong>City:</strong> {user.city}
+                </p>
+                <p>
+                  <strong>Mobile:</strong> {user.mobilenumber}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {user.phonenumber}
+                </p>
+
                 <strong>Authorities:</strong>
                 <ul>
                   {user.roles &&
@@ -97,7 +120,7 @@ export default function Profile(props) {
         <h1>No user logged in</h1>
       )}
       <ToastContainer />
-      <Modal show={showPasswordModal} onHide={handleClosePasswordModal}>
+      {/* <Modal show={showPasswordModal} onHide={handleClosePasswordModal}>
         <Modal.Header closeButton>
           <Modal.Title>Change Password</Modal.Title>
         </Modal.Header>
@@ -132,7 +155,8 @@ export default function Profile(props) {
             </Button>
           </Form>
         </Modal.Body>
-      </Modal>
+      </Modal> */}
+      <ModalChangePassword user={user} show={showPasswordModal} handleClose={handleClosePasswordModal} handleChangePassword={handleChangePassword} changeMessage={changeMessage} />
     </Container>
   );
 }
