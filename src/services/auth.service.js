@@ -10,9 +10,8 @@ class AuthService {
         password,
       })
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         if (response.data.token) {
-
           localStorage.setItem("user", JSON.stringify(response.data));
         }
         return response.data;
@@ -23,18 +22,32 @@ class AuthService {
     localStorage.removeItem("user");
   }
   // POST {username, email, password}
-  register(firstName, lastName, birthDate, street, number, city, email, phoneNumber, mobileNumber) {
-    return axios.post(API_URL + "registration", {
-      firstName,
-      lastName,
-      birthDate,
-      street,
-      number,
-      city,
-      email,
-      phoneNumber,
-      mobileNumber,
-    }, { headers: authHeader() });
+  register(
+    firstName,
+    lastName,
+    birthDate,
+    street,
+    number,
+    city,
+    email,
+    phoneNumber,
+    mobileNumber
+  ) {
+    return axios.post(
+      API_URL + "registration",
+      {
+        firstName,
+        lastName,
+        birthDate,
+        street,
+        number,
+        city,
+        email,
+        phoneNumber,
+        mobileNumber,
+      },
+      { headers: authHeader() }
+    );
   }
   // get stored user information (including JWT)
   getCurrentUser() {
@@ -42,13 +55,20 @@ class AuthService {
   }
 
   changePassword(id, oldPassword, newPassword, passwordRepeat) {
-    return axios.post(API_URL + "change-password", {
-      id,
-      oldPassword,
-      newPassword,
-      passwordRepeat
-    }, { headers: authHeader() })
+    return axios.post(
+      API_URL + "change-password",
+      {
+        id,
+        oldPassword,
+        newPassword,
+        passwordRepeat,
+      },
+      { headers: authHeader() }
+    );
+  }
 
+  forgotPassword(data) {
+    return axios.post(API_URL + "forgot-password/change", data);
   }
 }
 export default new AuthService();

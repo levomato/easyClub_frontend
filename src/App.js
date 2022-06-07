@@ -14,6 +14,7 @@ import Home from "./elements/home.element";
 import { NavBar } from "./elements/navbar.element";
 import Logout from "./elements/logout.element";
 import "bootstrap/dist/css/bootstrap.min.css";
+import ForgotPassword from "./elements/forgot-password";
 
 function App() {
   const user = authService.getCurrentUser();
@@ -31,6 +32,10 @@ function App() {
           <Route path="/mod" element={<BoardModerator user={user} />} />
           <Route path="/admin" element={<BoardAdmin user={user} />} />
           <Route path="/logout" element={<Logout user={user} />} />
+          <Route
+            path="/forgot-password"
+            element={<ForgotPassword user={user} />}
+          />
         </Routes>
       </div>
     </div>
