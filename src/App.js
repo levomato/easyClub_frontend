@@ -31,7 +31,7 @@ function App() {
           <Route path="/profile" element={<Profile user={user} />} />
           <Route path="/user" element={<BoardUser user={user} />} />
           <Route path="/mod" element={<BoardModerator user={user} />} />
-          <Route path="/admin" element={<BoardAdmin user={user} />} />
+          {user && <Route path="/admin" element={<BoardAdmin user={user} />} />}
           <Route path="/logout" element={<Logout user={user} />} />
           <Route
             path="/forgot-password"

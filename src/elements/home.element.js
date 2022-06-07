@@ -2,7 +2,6 @@ import React, { Component, useEffect, useState } from "react";
 import UserService from "../services/user.service";
 
 export default function Home(props) {
-
   const [content, setContent] = useState("");
 
   useEffect(() => {
@@ -15,13 +14,12 @@ export default function Home(props) {
           (error.response &&
             error.response.data &&
             error.response.data.message) ||
-          error.message ||
-          error.toString(),
+            error.message ||
+            error.toString()
         );
       }
-    )
-  })
-
+    );
+  }, []);
 
   return (
     <div className="container">
@@ -30,5 +28,4 @@ export default function Home(props) {
       </header>
     </div>
   );
-
 }
