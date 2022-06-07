@@ -10,6 +10,13 @@ class UserService {
     });
   }
 
+  deleteUsers(users) {
+    return axios.delete(API_URL_USER + "delete", {
+      headers: authHeader(),
+      data: users,
+    });
+  }
+
   getAllUsers() {
     return axios.get(API_URL_USER + "all", { headers: authHeader() });
   }
