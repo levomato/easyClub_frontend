@@ -15,6 +15,7 @@ import { NavBar } from "./elements/navbar.element";
 import Logout from "./elements/logout.element";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ForgotPassword from "./elements/forgot-password";
+import RequestForgotPassword from "./elements/request-forgot-password";
 
 function App() {
   const user = authService.getCurrentUser();
@@ -35,6 +36,10 @@ function App() {
           <Route
             path="/forgot-password"
             element={<ForgotPassword user={user} />}
+          />
+          <Route
+            path="/request-forgot-password"
+            element={<RequestForgotPassword />}
           />
         </Routes>
       </div>

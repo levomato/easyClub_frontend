@@ -1,41 +1,44 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useForm, Controller, appendErrors } from "react-hook-form";
-import { Col, Container, Row, Form, Button } from "react-bootstrap";
+import { toast, ToastContainer } from "react-toastify";
 import authService from "../services/auth.service";
 
-export default function ForgotPassword() {
-  const [searchParams, setSearchParams] = useSearchParams();
+export default function RequestForgotPassword() {
   const { register, handleSubmit, setValue, watch, control } = useForm();
 
-  const handleChangePassword = (data) => {
-    data.token = searchParams.get("token");
-    console.log(data);
-    authService.forgotPassword(data);
+  const handleRequest = (data) => {
+    authService
+      .requestPasswordChange(data)
+      .then(() => {
+        toast.success("Password Reset Link Send Out!");
+      })
+      .catch(() => {
+        toast.error("Something went wront!");
+      });
   };
-
   return (
     <Container>
       <Row>
         <Col>
-          <Form onSubmit={handleSubmit(handleChangePassword)}>
+          <Form onSubmit={handleSubmit(handleRequest)}>
             <Form.Group
               className="mb-3"
-              controllId="passwordForgottenForm.ControlInput1"
+              controllId="passwordForgottenrequest.ControlInput1"
               {...register("newPassword")}
             >
-              <Form.Label>New Password</Form.Label>
+              <Form.Label>Email</Form.Label>
               <Controller
                 control={control}
-                name="newPassword"
+                name="email"
                 defaultValue=""
                 render={({ field: { onChange, onBlur, value, ref } }) => (
                   <Form.Control
-                    type="password"
+                    type="email"
                     onChange={onChange}
                     value={value}
                     ref={ref}
-                    isInvalid={appendErrors.newPassword}
+                    isInvalid={appendErrors.email}
                     autoFocus
                   />
                 )}
@@ -43,32 +46,33 @@ export default function ForgotPassword() {
             </Form.Group>
             <Form.Group
               className="mb-3"
-              controllId="passwordForgottenForm.ControlInput2"
+              controllId="passwordForgottenRequest.ControlInput2"
               {...register("passwordRepeat")}
             >
-              <Form.Label>Repeat Password</Form.Label>
+              <Form.Label>Username</Form.Label>
               <Controller
                 control={control}
-                name="passwordRepeat"
+                name="username"
                 defaultValue=""
                 render={({ field: { onChange, onBlur, value, ref } }) => (
                   <Form.Control
-                    type="password"
+                    type="text"
                     onChange={onChange}
                     value={value}
                     ref={ref}
-                    isInvalid={appendErrors.passwordRepeat}
+                    isInvalid={appendErrors.username}
                     autoFocus
                   />
                 )}
               />
             </Form.Group>
             <Button variant="secondary" size="sm" type="submit">
-              Change Password
+              Send me a reset Link!
             </Button>
           </Form>
         </Col>
       </Row>
+      <ToastContainer />
     </Container>
   );
 }

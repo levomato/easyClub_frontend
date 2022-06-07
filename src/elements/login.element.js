@@ -2,8 +2,8 @@ import React, { Component, useState } from "react";
 import AuthService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const required = (value) => {
   if (!value) {
@@ -15,24 +15,24 @@ const required = (value) => {
   }
 };
 export default function Login(props) {
-
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(undefined);
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const handleLogin = (data) => {
-
     setMessage("");
     setLoading(true);
 
     AuthService.login(data.username, data.password).then(
       () => {
-
-
         navigate("/profile");
         window.location.reload();
       },
@@ -48,22 +48,24 @@ export default function Login(props) {
         setLoading(false);
       }
     );
+  };
 
-  }
-
-  console.log(watch("username"))
+  console.log(watch("username"));
 
   return (
     <div className="col-md-12">
       <div className="card card-container">
-
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <input
               name="username"
               className="form-control"
-              {...register("username", { required: true, minLength: 3, maxLength: 50 })}
+              {...register("username", {
+                required: true,
+                minLength: 3,
+                maxLength: 50,
+              })}
             />
           </div>
           <div className="form-group">
@@ -72,19 +74,23 @@ export default function Login(props) {
               type="password"
               className="form-control"
               name="password"
-              {...register("password", { required: true, minLength: 8, maxLength: 50 })}
+              {...register("password", {
+                required: true,
+                minLength: 8,
+                maxLength: 50,
+              })}
             />
           </div>
           <div className="form-group">
-            <button
-              className="btn btn-primary btn-block"
-              disabled={loading}
-            >
+            <button className="btn btn-primary btn-block" disabled={loading}>
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
               <span>Login</span>
             </button>
+          </div>
+          <div className="form-group">
+            <a href="/request-forgot-password">Forgot your password?</a>
           </div>
           {message && (
             <div className="form-group">
@@ -95,8 +101,6 @@ export default function Login(props) {
           )}
         </form>
       </div>
-
     </div>
   );
-
 }
