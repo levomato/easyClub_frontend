@@ -1,8 +1,8 @@
-import React, { Component, useState } from "react";
+import React, { Component, useRef, useState, useEffect } from "react";
 import AuthService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 
 const required = (value) => {
@@ -19,7 +19,9 @@ export default function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [countFails, setCountFails] = useState(0);
   const [message, setMessage] = useState(undefined);
+
   const {
     register,
     handleSubmit,
@@ -46,11 +48,10 @@ export default function Login(props) {
 
         setMessage(resMessage);
         setLoading(false);
+        setCountFails((prevCount) => prevCount + 1);
       }
     );
   };
-
-  console.log(watch("username"));
 
   return (
     <div className="col-md-12">
