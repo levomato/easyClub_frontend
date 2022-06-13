@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import Login from "./elements/login.element";
 import Register from "./elements/register.element";
 import Profile from "./elements/profile.element";
+import Groups from "./elements/groups.element";
 import Home from "./elements/home.element";
 import { NavBar } from "./elements/navbar.element";
 import Logout from "./elements/logout.element";
@@ -29,6 +30,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register user={user} />} />
           <Route path="/profile" element={<Profile user={user} />} />
+          <Route path="/groups" element={<Groups user={user} />} />
           <Route path="/user" element={<BoardUser user={user} />} />
           <Route path="/mod" element={<BoardModerator user={user} />} />
           {user && <Route path="/admin" element={<BoardAdmin user={user} />} />}

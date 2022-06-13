@@ -8,6 +8,7 @@ export const NavBar = (props) => {
   const [showRegister, setShowRegister] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showGroups, setShowGroups] = useState(false);
 
   const navigate = useNavigate();
 
@@ -17,6 +18,8 @@ export const NavBar = (props) => {
     setShowLogout(false);
     setShowProfile(false);
     setShowRegister(false);
+    setShowAdmin(false);
+    setShowGroups(false);
     navigate("/logout");
   };
 
@@ -25,6 +28,7 @@ export const NavBar = (props) => {
       setShowLogin(false);
       setShowProfile(true);
       setShowLogout(true);
+      setShowGroups(true);
       const roles = props.user.roles;
       if (roles.includes("Admin")) {
         setShowRegister(true);
@@ -40,6 +44,7 @@ export const NavBar = (props) => {
           <Navbar.Brand href="/home">Home</Navbar.Brand>
           <Nav className="me-auto">
             {showProfile && <Nav.Link href="/profile">Profile</Nav.Link>}
+            {showGroups && <Nav.Link href="/groups">Groups</Nav.Link>}
             {showLogin && <Nav.Link href="/login">Login</Nav.Link>}
             {showLogout && (
               <Nav.Link href="#" onClick={logOut}>
