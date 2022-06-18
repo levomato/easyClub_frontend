@@ -9,6 +9,7 @@ export const NavBar = (props) => {
   const [showProfile, setShowProfile] = useState(false);
   const [showAdmin, setShowAdmin] = useState(false);
   const [showGroups, setShowGroups] = useState(false);
+  const [showGroupsManager, setShowGroupsManager] = useState(false);
 
   const navigate = useNavigate();
 
@@ -20,6 +21,7 @@ export const NavBar = (props) => {
     setShowRegister(false);
     setShowAdmin(false);
     setShowGroups(false);
+    setShowGroupsManager(false);
     navigate("/logout");
   };
 
@@ -33,6 +35,7 @@ export const NavBar = (props) => {
       if (roles.includes("Admin")) {
         setShowRegister(true);
         setShowAdmin(true);
+        setShowGroupsManager(true);
       }
     }
   }, [props.user]);
@@ -53,6 +56,7 @@ export const NavBar = (props) => {
             )}
             {showAdmin && <Nav.Link href="/admin">Admin Board</Nav.Link>}
             {showRegister && <Nav.Link href="/register">Register</Nav.Link>}
+            {showGroupsManager && <Nav.Link href="/manageGroups">Manage Groups</Nav.Link>}
           </Nav>
         </Container>
       </Navbar>

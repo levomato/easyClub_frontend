@@ -8,6 +8,18 @@ class GroupsService {
     return axios.get(API_URL_GROUPS + userId, { headers: authHeader() });
   }
 
+  getAllGroups() {
+    return axios.get(API_URL_GROUPS, {headers: authHeader()});
+  }
+
+  deleteGroup(groupId) {
+    return axios.delete(API_URL_GROUPS + groupId, {headers: authHeader()});
+  }
+
+  removeUser(userId, groupId) {
+    return axios.put(API_URL_GROUPS + "removeUser/" + userId + "/" + groupId, null, {headers: authHeader()});
+  }
+
   sendUserMessage(toUserId, fromUserId, message){
     return axios.post(API_URL_GROUPS + "sendUserMail/" + fromUserId + "/" + toUserId, message, {
       headers: {
