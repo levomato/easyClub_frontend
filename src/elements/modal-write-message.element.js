@@ -12,6 +12,9 @@ export default function ModalWriteMessage(props) {
     const handleShow = () => setShowMessageModal(true);
 
     const handleWriteMessage = (data) => {
+        if(data.length == 0)
+            return;
+
         if(props.to.userName){
             groupsService.sendUserMessage(props.to.id, props.user.id, data.message)
             .then((response) => {

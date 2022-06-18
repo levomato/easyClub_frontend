@@ -12,6 +12,10 @@ class GroupsService {
     return axios.get(API_URL_GROUPS, {headers: authHeader()});
   }
 
+  editGroup(group, groupId) {
+    return axios.patch(API_URL_GROUPS + groupId, group, {headers: authHeader()});
+  }
+
   deleteGroup(groupId) {
     return axios.delete(API_URL_GROUPS + groupId, {headers: authHeader()});
   }

@@ -5,14 +5,17 @@ import { Container, Row, Col, Image } from "react-bootstrap";
 import { Button, Modal, Form } from "react-bootstrap";
 import GroupsService from "../services/groups.service";
 import ModalWriteMessage from "./modal-write-message.element";
+import ModalEditGroup from "./modal-edit-group.element";
 
 export default function ManageGroups(props) {
   const user = props.user;
   const [groups, setGroups] = useState([]);
   const [content, setContent] = useState([]);
   const [to, setTo] = useState(user);
+  const [group, setGroup] = useState(user);
 
   const [showMessageModal, setShowMessageModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
 
   const handleCloseMessageModal = () => setShowMessageModal(false);
@@ -20,6 +23,16 @@ export default function ManageGroups(props) {
     setTo(e);
     setShowMessageModal(true);
   };
+
+  const handleCloseEditModal = (e) =>{ 
+    setShowEditModal(false);
+    setGroups(e);
+  };
+  const handleShowEditModal = (e) => {
+    setGroup(e);
+    setShowEditModal(true);
+  };
+
 
 
   useEffect(() => {
@@ -64,10 +77,6 @@ export default function ManageGroups(props) {
   });
   }
 
-  const editGroup = (e) => {
-    console.dir(e);
-  }
-
   const removeUser = (eUser, eGroup) => {
     GroupsService.removeUser(eUser.id, eGroup.id)
     .then((response) => {
@@ -88,7 +97,7 @@ export default function ManageGroups(props) {
           <h1>{group.name}</h1>
           <h2>{group.description}</h2>
           <Button onClick={() => deleteGroup(group)}>Delete Group</Button>
-          <Button onClick={() => editGroup(group)}>Edit Group</Button>
+          <Button onClick={() => handleShowEditModal(group)}>Edit Group</Button>
           <Button>Add User</Button>
           <table>
             <thead>
@@ -118,6 +127,7 @@ export default function ManageGroups(props) {
       <ToastContainer />
 
       <ModalWriteMessage to={to} user={user} show={showMessageModal} handleClose={handleCloseMessageModal} changeMessage={changeMessage} />
+      <ModalEditGroup group={group} show={showEditModal} handleClose={handleCloseEditModal} changeMessage={changeMessage} />
        
     </Container>
   
