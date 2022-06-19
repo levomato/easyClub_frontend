@@ -4,7 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { Button, Modal, Form } from "react-bootstrap";
 import GroupsService from "../services/groups.service";
-import ModalWriteMessage from "./modal-write-message.element";
+import ModalCreateGroup from "./modal-create-group.element";
 import ModalEditGroup from "./modal-edit-group.element";
 
 export default function ManageGroups(props) {
@@ -13,16 +13,9 @@ export default function ManageGroups(props) {
   const [content, setContent] = useState([]);
   const [to, setTo] = useState(user);
   const [group, setGroup] = useState(user);
-
-  const [showMessageModal, setShowMessageModal] = useState(false);
+  
   const [showEditModal, setShowEditModal] = useState(false);
-
-
-  const handleCloseMessageModal = () => setShowMessageModal(false);
-  const handleShowMessageModal = (e) => {
-    setTo(e);
-    setShowMessageModal(true);
-  };
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const handleCloseEditModal = (e) =>{ 
     setShowEditModal(false);
@@ -33,7 +26,13 @@ export default function ManageGroups(props) {
     setShowEditModal(true);
   };
 
-
+  const handleCloseCreateModal = (e) => {
+    setShowCreateModal(false);
+    setGroups(e);
+  }
+  const handleShowCreateModal = () => {
+    setShowCreateModal(true);
+  }
 
   useEffect(() => {
 
@@ -91,7 +90,7 @@ export default function ManageGroups(props) {
 
   return (
       <Container>
-        <Button>Create Group</Button>
+        <Button onClick={handleShowCreateModal}>Create Group</Button>
         {groups.map((group)=>(
           <div key={group.id}>
           <h1>{group.name}</h1>
@@ -99,7 +98,8 @@ export default function ManageGroups(props) {
           <Button onClick={() => deleteGroup(group)}>Delete Group</Button>
           <Button onClick={() => handleShowEditModal(group)}>Edit Group</Button>
           <Button>Add User</Button>
-          <table>
+          {(group.users.length != 0) ?
+          (<table>
             <thead>
               <tr>
                 <th>Firstname</th>
@@ -120,14 +120,14 @@ export default function ManageGroups(props) {
             </tr>
           ))}
           </tbody>
-          </table>
+          </table>)
+          : ("")}
           </div>
         ))}
       
       <ToastContainer />
-
-      <ModalWriteMessage to={to} user={user} show={showMessageModal} handleClose={handleCloseMessageModal} changeMessage={changeMessage} />
       <ModalEditGroup group={group} show={showEditModal} handleClose={handleCloseEditModal} changeMessage={changeMessage} />
+      <ModalCreateGroup show={showCreateModal} handleClose={handleCloseCreateModal} changeMessage={changeMessage} />
        
     </Container>
   
