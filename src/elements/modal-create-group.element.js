@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap';
 import { appendErrors, Controller, useForm } from 'react-hook-form';
 import groupsService from '../services/groups.service';
@@ -33,7 +33,7 @@ export default function ModalCreateGroup(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={handleSubmit(handleCreateGroup)}>
-                        <Form.Group className="mb-3" controllid="editForm.ControlInput1">
+                        <Form.Group className="mb-3" controllid="ceateForm.ControlInput1">
                             <Form.Label>Name</Form.Label>
                             <Controller control={control} name="name" defaultValue=""
                                 render={({ field: { onChange, onBlur, value, ref } }) => (

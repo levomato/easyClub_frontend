@@ -1,11 +1,11 @@
 import React, { Component, useEffect, useState } from "react";
-import authService from "../services/auth.service";
 import { toast, ToastContainer } from "react-toastify";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { Button, Modal, Form } from "react-bootstrap";
 import GroupsService from "../services/groups.service";
 import ModalCreateGroup from "./modal-create-group.element";
 import ModalEditGroup from "./modal-edit-group.element";
+import ModalAddUserToGroup from "./modal-add-user-to-group.element";
 
 export default function ManageGroups(props) {
   const user = props.user;
@@ -13,13 +13,15 @@ export default function ManageGroups(props) {
   const [content, setContent] = useState([]);
   const [to, setTo] = useState(user);
   const [group, setGroup] = useState(user);
+  const [users, setUsers] = useState([]);
   
   const [showEditModal, setShowEditModal] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showAddUserToGroupModal, setShowAddUserToGroupModal] = useState(false);
 
   const handleCloseEditModal = (e) =>{ 
     setShowEditModal(false);
-    setGroups(e);
+    if(e) setGroups(e);
   };
   const handleShowEditModal = (e) => {
     setGroup(e);
@@ -28,10 +30,31 @@ export default function ManageGroups(props) {
 
   const handleCloseCreateModal = (e) => {
     setShowCreateModal(false);
-    setGroups(e);
+    if(e) setGroups(e);
   }
   const handleShowCreateModal = () => {
     setShowCreateModal(true);
+  }
+
+  const handleCloseAddUserToGroupModal = (e) => {
+    setShowAddUserToGroupModal(false);
+    if(e) setGroups(e);
+  }
+  const handleShowAddUserToGroupModal = (e) => {
+    setGroup(e);
+    GroupsService.getRestUsersOfGroup(e.id).then(
+      (response) => {
+        setUsers(response.data);
+        if (response.data.length == 0) {
+            changeMessage("No User Available!", false);
+        } else {
+        setShowAddUserToGroupModal(true);
+        }
+      } , (error) => {
+
+      }
+    );
+     
   }
 
   useEffect(() => {
@@ -97,7 +120,7 @@ export default function ManageGroups(props) {
           <h2>{group.description}</h2>
           <Button onClick={() => deleteGroup(group)}>Delete Group</Button>
           <Button onClick={() => handleShowEditModal(group)}>Edit Group</Button>
-          <Button>Add User</Button>
+          <Button onClick={() => handleShowAddUserToGroupModal(group)}>Add User</Button>
           {(group.users.length != 0) ?
           (<table>
             <thead>
@@ -128,6 +151,7 @@ export default function ManageGroups(props) {
       <ToastContainer />
       <ModalEditGroup group={group} show={showEditModal} handleClose={handleCloseEditModal} changeMessage={changeMessage} />
       <ModalCreateGroup show={showCreateModal} handleClose={handleCloseCreateModal} changeMessage={changeMessage} />
+      <ModalAddUserToGroup group={group} users={users} show={showAddUserToGroupModal} handleClose={handleCloseAddUserToGroupModal} changeMessage={changeMessage} />
        
     </Container>
   
