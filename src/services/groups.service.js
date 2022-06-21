@@ -37,22 +37,11 @@ class GroupsService {
   }
 
   sendUserMessage(toUserId, fromUserId, message){
-    return axios.post(API_URL_GROUPS + "sendUserMail/" + fromUserId + "/" + toUserId, message, {
-      headers: {
-        "Authorization" : authHeader().Authorization,
-        "Content-Type" : 'text/plain'
-      }
-    });
+    return axios.post(API_URL_GROUPS + "sendUserMail/" + fromUserId + "/" + toUserId, message, {headers: authHeader()});
   }
 
   sendGroupMessage(groupId, fromUserId, message){
-    console.log(message);
-    return axios.post(API_URL_GROUPS + "sendGroupMail/" + fromUserId + "/" + groupId, message, {
-      headers: {
-        "Authorization" : authHeader().Authorization,
-        "Content-Type" : 'text/plain'
-      }
-    });
+    return axios.post(API_URL_GROUPS + "sendGroupMail/" + fromUserId + "/" + groupId, message, {headers: authHeader()});
   }
 }
 export default new GroupsService();
