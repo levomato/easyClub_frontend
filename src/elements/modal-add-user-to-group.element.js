@@ -26,31 +26,31 @@ export default function ModalAddUserToGroup(props) {
 
     return (
         <>
-            <Modal show={props.show} onHide={props.handleClose}>
+            <Modal show={props.show} size="lg" onHide={props.handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Add User To Group: {props.group.name}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <table>
-                    <thead>
-              <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th> </th>
-              </tr>
-              </thead>
-              <tbody>
-                        {props.users.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.firstName}</td>
-                                <td>{user.lastName}</td>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
-                                <td><Button onClick={() => handleAddUserToGroup(user)}>Add</Button></td>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th> </th>
                             </tr>
-                        ))}
+                        </thead>
+                        <tbody>
+                            {props.users.map((user) => (
+                                <tr key={user.id}>
+                                    <td>{user.firstName}</td>
+                                    <td>{user.lastName}</td>
+                                    <td>{user.username}</td>
+                                    <td>{user.email}</td>
+                                    <td><Button onClick={() => handleAddUserToGroup(user)}>Add</Button></td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </Modal.Body>

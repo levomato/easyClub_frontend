@@ -49,13 +49,13 @@ export default function ModalWriteMessage(props) {
                                 render={({ field: { onChange, onBlur, value, ref } }) => (
                                     <Form.Control type="text" rows={5} onChange={onChange} value={value} autoFocus />
                                 )} />
-                            <Form.Label>Message</Form.Label>
+                            <Form.Label className="mt-2">Message</Form.Label>
                             <Controller control={control} name="message" defaultValue=""
                                 render={({ field: { onChange, onBlur, value, ref } }) => (
                                     <Form.Control as="textarea" rows={5} onChange={onChange} value={value} />
                                 )} />
                         </Form.Group>
-                        <Button variant="secondary" size="sm" type="submit">
+                        <Button size="sm" type="submit">
                             Send Message
                         </Button>
                     </Form>

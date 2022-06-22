@@ -39,13 +39,13 @@ export default function ModalEditGroup(props) {
                                 render={({ field: { onChange, onBlur, value, ref } }) => (
                                     <Form.Control type="text" onChange={onChange} value={value}  autoFocus />
                                 )} />
-                            <Form.Label>Description</Form.Label>
+                            <Form.Label className="mt-2">Description</Form.Label>
                             <Controller control={control} name="description" defaultValue={props.group.description}
                                 render={({ field: { onChange, onBlur, value, ref } }) => (
                                     <Form.Control as="textarea" rows={2} onChange={onChange} value={value} />
                                 )} />
                         </Form.Group>                        
-                        <Button variant="secondary" size="sm" type="submit">
+                        <Button variant="primary" size="sm" type="submit">
                             Edit Group
                         </Button>
                     </Form>

@@ -27,19 +27,19 @@ export default function Groups(props) {
     GroupsService.getGroupsOfUser(user.id).then(
       (response) => {
         setGroups(response.data);
-        
+
       },
       (error) => {
         setContent(
           (error.response &&
             error.response.data &&
             error.response.data.message) ||
-            error.message ||
-            error.toString()
+          error.message ||
+          error.toString()
         );
       }
     );
-    
+
   }, []);
 
   const changeMessage = (message, accepted) => {
@@ -53,41 +53,44 @@ export default function Groups(props) {
   }
 
   return (
-      <Container>
-        {groups.map((group)=>(
-          <div key={group.id}>
-          <h1>{group.name}</h1>
-          <Button onClick={() => handleShowMessageModal(group)}>Send Group Message</Button>
-          <table>
-            <thead>
-              <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th> </th>
-              </tr>
+    <Container className="mt-3 ms-0">
+      {groups.map((group) => (
+        <div key={group.id} className="border border-3 mb-3 ps-3 pt-2 rounded">
+          <h1 className="mb-3 display-5">{group.name}</h1>
+          <div className="ps-3 pe-4">
+            <p className="mb-3 lead fs-3">{group.description}</p>
+            <Button onClick={() => handleShowMessageModal(group)} className="mt-2 mb-3" >Send Group Message</Button>
+            <table className="table table-striped mt-3">
+              <thead>
+                <tr>
+                  <th>Firstname</th>
+                  <th>Lastname</th>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th> </th>
+                </tr>
               </thead>
               <tbody>
-          {group.users.map((_user) => (
-            <tr key={_user.id}>
-              <td>{_user.firstName}</td>
-              <td>{_user.lastName}</td>
-              <td>{_user.userName}</td>
-              <td>{_user.email}</td>
-              <td><Button onClick={() => handleShowMessageModal(_user)}>Send Message</Button></td>
-            </tr>
-          ))}
-          </tbody>
-          </table>
+                {group.users.map((_user) => (
+                  <tr key={_user.id}>
+                    <td>{_user.firstName}</td>
+                    <td>{_user.lastName}</td>
+                    <td>{_user.userName}</td>
+                    <td>{_user.email}</td>
+                    <td><Button onClick={() => handleShowMessageModal(_user)}>Send Message</Button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ))}
-      
+        </div>
+      ))}
+
       <ToastContainer />
 
       <ModalWriteMessage to={to} user={user} show={showMessageModal} handleClose={handleCloseMessageModal} changeMessage={changeMessage} />
-       
+
     </Container>
-  
-    );
+
+  );
 }
